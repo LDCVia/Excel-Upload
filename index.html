@@ -1,0 +1,112 @@
+<!doctype html>
+<!-- BUI v0.2.06.26515 10.04.2017 BVT2 -->
+<head>
+	<title>BUI - Global Genius Booking User Interface</title>
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- BUI Style Sheet -->
+	<link rel="stylesheet" type="text/css" href="./css/main.css" />
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!-- Angular Material style sheet -->
+	<link rel="stylesheet" type="text/css" href="./css/angular-material.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/ui-grid.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/icon.css" />
+	<link rel="stylesheet" type="text/css" href="./css/angular-busy.min.css" />
+</head>
+<body ng-app="viaApp" ng-controller="ViaCtrl" ng-cloak  ng-keydown="onkeydown($event)">
+	<script src="./js/angular.js"></script>
+	<script src="./js/angular-resource.js"></script>
+	<script src="./js/angular-animate.min.js"></script>
+	<script src="./js/angular-aria.min.js"></script>
+	<script src="./js/angular-messages.min.js"></script>
+	<!-- Angular Material Library -->
+	<script src="./js/angular-material.min.js"></script>
+	<!-- UI-Grid Library -->
+	<script src="./js/csv.js"></script>
+	<script src="./js/vfs_fonts.js"></script>
+
+	<script src="js/angular-busy.min.js"></script>
+	<script src="js/angular-spinner.js"></script>
+	<script src="js/via-app.js"></script>
+	<script src="js/ui-grid.min.js"></script>
+	<script src="js/ui-bootstrap-tpls-2.1.4.min.js"></script>
+
+	<script src="js/jszip.min.js"></script>
+	<script src="js/xlsx.js"></script>
+	<script src="js/ods.js"></script>
+
+
+  <table width="100%" style="background-color: white;">
+	<tr>
+		<td style="padding: 5px; font-weight: bold; font-size: 15px;">Excel Upload to Via</td>
+		<td align="center" vertical-align="top">
+		</td>
+	</tr>
+  </table>
+
+	<div ng-controller="LocationImportCtrl" ng-keydown="onkeydown($event)">
+		<table width="100%" style="margin-bottom: 10px;">
+			<tr>
+				<td width="200"><b>Location Data</b></td>
+				<td>
+					<button class="btn btn-primary btn-sm" ng-click="addNew()">Add New Location</button>
+				</td>
+				<td align="Left">
+					Import File:<br/>
+					<input type="file" accept=".xls,.xlsx,.ods,.xlsb" fileread="" opts="locGridOptions" multiple="false" />
+				</td>
+				<td align="right">
+					<!-- <b>Import location data:</b> <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/> -->
+					<button type="button" class="btn btn-danger btn-sm" ng-hide="locGridOptions.data.length == 0" ng-click="clearLocations()">
+						Clear Location Data
+					</button>
+
+				</td>
+			</tr>
+		</table>
+		<div cg-busy="locPromise" ui-grid="locGridOptions" ui-grid-importer ui-grid-exporter ui-grid-edit ui-grid-cellNav ui-grid-resize-columns class="locGrid"></div>
+
+			<script type="text/ng-template" id="confirmDelete.html">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modal-title">Clear Locations</h3>
+				</div>
+				<div class="modal-body" id="modal-body">
+					<h4>Are you sure you want to delete all locations?</h4>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-danger" type="button" ng-click="ok()">OK</button>
+					<button class="btn btn-primary" type="button" ng-click="cancel()">Cancel</button>
+				</div>
+			</script>
+
+
+			<script type="text/ng-template" id="confirmSheet.html">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modal-title">Select Sheet</h3>
+				</div>
+				<div class="modal-body" id="modal-body">
+					<b>Which sheet in the uploaded speadSheet do you want to import</b>
+					<br/>
+					<select name="sheetSelect" id="sheetSelect" ng-model="data.chosenOption">
+						<option ng-repeat="option in options" value="{{option}}">{{option}}</option>
+					</select>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn btn-danger" type="button" ng-click="ok(data.chosenOption)">OK</button>
+				</div>
+			</script>
+
+
+
+		</div>
+
+</body>
+</html>
